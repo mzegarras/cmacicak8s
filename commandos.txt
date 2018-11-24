@@ -109,7 +109,6 @@ kubectl rollout status deployments/lpsa-nombreapellido
 kubectl rollout undo deployments/lpsa-nombreapellido
 
 
-
 4.- Sin service
 
 kubectl run tci-creditcard-nombreapellido --image=dreytpo/tci-creditcard:3.0.0 --port=9070
@@ -127,7 +126,8 @@ http://[ip pod]:9070/tci-creditcard/1231312
 curl http://tci-creditcard-nombreapellido:9070/tci-creditcard/1231312
 
 kubectl expose deployments tci-creditcard --port=9070 --type=LoadBalancer
-#kubectl exec -ti my-shell-5584f678b5-7ctvh -- /bin/sh
+kubectl exec -ti my-shell-796b6f7d5b-fkdl5 -- /bin/sh
+
 
 
 4.- Generar imagen:
