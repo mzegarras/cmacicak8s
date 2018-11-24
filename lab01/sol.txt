@@ -1,1 +1,6 @@
 docker build -t hello-node:v1 .
+subir image docker hub
+
+crear pod k8s
+crear service k8s
+scalar 3 replicas
