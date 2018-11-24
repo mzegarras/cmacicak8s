@@ -1,6 +1,22 @@
 https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-with-chocolatey-on-windows
 curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/windows/amd64/kubectl.exe
 
+kubectl version
+
+windows
+===
+cd C:\users\yourusername
+mkdir .kube
+cd .kube
+
+Linux
+=====
+mkdir ~/.kube
+cd ~/.kube
+
+
+
+
 
 $ kubectl run -it --rm --restart=Never busybox --image=busybox sh
 If you don't see a command prompt, try pressing enter.
