@@ -13,6 +13,34 @@ Linux
 =====
 mkdir ~/.kube
 cd ~/.kube
+cp ~/Downloads/config ~/.kube/
+
+
+
+1.- Crear pods
+
+kubectl run my-nginx --image=nginx --port=80
+kubectl scale deployments/my-nginx --replicas=10
+kubectl expose deployments/my-nginx --port=80 --type=LoadBalancer
+
+1.- Crear pods x alumno
+kubectl run my-nginx-NombreApellido --image=nginx --port=80
+kubectl expose deployments/my-nginx-NombreApellido --port=80 --type=LoadBalancer
+kubectl get pods
+kubectl delete pods/
+
+
+kubectl delete service/my-nginx-NombreApellido
+kubectl delete deployments/my-nginx-NombreApellido
+
+
+
+
+
+
+
+
+
 
 
 
@@ -65,6 +93,26 @@ kubectl delete deployment my-nginx
 kubectl delete service my-nginx
 
 
+- Ejemplo kubernetes
+kubectl run lpsa --image mzegarra/lpsa:1.0 --port=80
+kubectl expose deployments lpsa --port=80 --type=LoadBalancer
+kubectl scale deployments/lpsa --replicas=5
+
+kubectl create deployment lpsa --image mzegarra/lpsa:1.0
+
+kubectl expose deployments lpsa --port=80 --type=Cluster
+
+---Actualizar
+
+kubectl set image deployments/lpsa lpsa=mzegarra/lpsa:2.0
+
+--Commit
+kubectl rollout status deployments/lpsa
+
+--Rollback
+kubectl rollout undo deployments/lpsa
+
+
 4.- Generar imagen:
 
 docker build -t lpsa:1.0 .
@@ -86,20 +134,13 @@ docker push mzegarra/lpsa:1.0
 docker push mzegarra/lpsa:2.0
 
 - Ejemplo kubernetes
+kubectl run lpsa --image mzegarra/lpsa:1.0 --port=80
 kubectl create deployment lpsa --image mzegarra/lpsa:1.0
 kubectl scale deployments/lpsa --replicas=5
 kubectl expose deployments lpsa --port=80 --type=LoadBalancer
 kubectl expose deployments lpsa --port=80 --type=Cluster
 
----Actualizar
 
-kubectl set image deployments/lpsa lpsa=mzegarra/lpsa:2.0
-
---Commit
-kubectl rollout status deployments/lpsa
-
---Rollback
-kubectl rollout undo deployments/lpsa
 
 
 
@@ -108,18 +149,28 @@ https://medium.com/@cfatechblog/bare-metal-k8s-clustering-at-chick-fil-a-scale-7
 
 ===
 
+kubectl run tci-creditcard --image=dreytpo/tci-creditcard:3.0.0 --port=9070
+kubectl expose deployments tci-creditcard --port=9070 --type=LoadBalancer
+kubectl expose deployments tci-creditcard --port=9070 --type=ClusterIP
+http://107.178.218.33:9070/tci-creditcard/1231312
+curl http://tci-creditcard:9070/tci-creditcard/1231312
+curl http://10.48.5.10:9070/tci-creditcard/1231312
+
 kubectl create deployment tci-creditcard --image dreytpo/tci-creditcard:3.0.0
 kubectl create deployment tci-accounts --image fabiosalasm/tci-accounts:2.0.0
 kubectl create deployment tci-customers --image jmoralesadrianzen/tci-customers:2.0.0
 kubectl create deployment tci-web --image mzegarra/tci-web
-
-
 
 kubectl expose deployments tci-creditcard --port=9070 --type=ClusterIP
 kubectl expose deployments tci-accounts  --port=9071 --type= ClusterIP
 kubectl expose deployments tci-customers --port=9072 --type=ClusterIP
 kubectl expose deployments tci-web --port=8082 --type=LoadBalancer
 
+kubectl run my-shell --rm -i --tty --image ubuntu -- bash
+kubectl exec -ti my-shell-5584f678b5-7ctvh -- /bin/sh
+apt-get update
+apt-get install -y curl
+apt-get install -y iputils-ping
 
 ====
 
