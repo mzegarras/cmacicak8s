@@ -109,6 +109,27 @@ kubectl rollout status deployments/lpsa-nombreapellido
 kubectl rollout undo deployments/lpsa-nombreapellido
 
 
+
+4.- Sin service
+
+kubectl run tci-creditcard-nombreapellido --image=dreytpo/tci-creditcard:3.0.0 --port=9070
+
+kubectl run my-shell-nombreapellido --rm -i --tty --image ubuntu -- bash
+
+apt-get update
+apt-get install -y curl
+apt-get install -y iputils-ping
+
+curl http://[ip pod]:9070/tci-creditcard/1231312
+
+kubectl expose deployments tci-creditcard-nombreapellido --port=9070 --type=ClusterIP
+http://[ip pod]:9070/tci-creditcard/1231312
+curl http://tci-creditcard-nombreapellido:9070/tci-creditcard/1231312
+
+kubectl expose deployments tci-creditcard --port=9070 --type=LoadBalancer
+#kubectl exec -ti my-shell-5584f678b5-7ctvh -- /bin/sh
+
+
 4.- Generar imagen:
 
 docker build -t lpsa:1.0 .
@@ -162,11 +183,6 @@ kubectl expose deployments tci-accounts  --port=9071 --type= ClusterIP
 kubectl expose deployments tci-customers --port=9072 --type=ClusterIP
 kubectl expose deployments tci-web --port=8082 --type=LoadBalancer
 
-kubectl run my-shell --rm -i --tty --image ubuntu -- bash
-kubectl exec -ti my-shell-5584f678b5-7ctvh -- /bin/sh
-apt-get update
-apt-get install -y curl
-apt-get install -y iputils-ping
 
 ====
 
