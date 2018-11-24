@@ -100,7 +100,7 @@ kubectl scale deployments/lpsa-nombreapellido --replicas=3
 
 ---Actualizar
 
-kubectl set image deployments/lpsa-nombreapellido lpsa=mzegarra/lpsa:2.0
+kubectl set image deployments/lpsa-nombreapellido lpsa-nombreapellido=mzegarra/lpsa:2.0
 
 --Commit
 kubectl rollout status deployments/lpsa-nombreapellido
