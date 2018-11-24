@@ -1,5 +1,28 @@
+https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-with-chocolatey-on-windows
+
+$ kubectl run -it --rm --restart=Never busybox --image=busybox sh
+If you don't see a command prompt, try pressing enter.
 
 
+kubectl get nodes
+kubectl get nodes -o wide
+kubectl describe nodes
+
+
+kubectl config current-context
+kubectl config view
+kubectl config get-contexts
+
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+=====
+
+dashboard
+=================
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+kubectl proxy
+http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+
+kubectl get pods --output=wide
 =================
 1.- Crear pods
 kubectl run my-nginx --image=nginx --port=80
