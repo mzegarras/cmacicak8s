@@ -12,7 +12,7 @@ docker push mzegarra/hello-node:v1
 - crear pod k8s puerto 8888
 kubectl run hello-node-mz --image=mzegarra/hello-node:v1 --port=8888
 kubectl expose deployments/hello-node-mz --port=8888 --type=LoadBalancer
-kubectl scale deployments/my-nginx --replicas=3
+kubectl scale deployments/hello-node-mz --replicas=3
 
 crear service k8s
 scalar 3 replicas pods
