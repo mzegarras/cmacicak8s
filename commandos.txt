@@ -1,0 +1,113 @@
+
+
+=================
+1.- Crear pods
+kubectl run my-nginx --image=nginx --port=80
+
+kubectl scale deployments/my-nginx --replicas=2
+
+kubectl expose deployments/my-nginx --port=80 --type=LoadBalancer
+
+
+kubectl run my-nginx --image=nginx --replicas=2 --port=80
+
+kubectl run my-nginx --image=nginx --replicas=2 --port=80
+
+kubectl get pods
+kubectl get deployment
+
+2.- Crear service
+kubectl expose deployment my-nginx --port=80 --type=LoadBalancer
+
+3.- Eliminar service
+kubectl delete deployment my-nginx
+kubectl delete service my-nginx
+
+
+4.- Generar imagen:
+
+docker build -t lpsa:1.0 .
+docker build -t lpsa:2.0 .
+
+5.- Angular
+npm install
+ng serve
+
+6.-
+docker run -p 8080:80 lpsa:1.0
+docker run -p 8080:80 lpsa:2.0
+
+7.- Publicar docker hub
+docker tag lpsa:1.0 mzegarra/lpsa:1.0
+docker tag lpsa:2.0 mzegarra/lpsa:2.0
+
+docker push mzegarra/lpsa:1.0
+docker push mzegarra/lpsa:2.0
+
+- Ejemplo kubernetes
+kubectl create deployment lpsa --image mzegarra/lpsa:1.0
+kubectl scale deployments/lpsa --replicas=5
+kubectl expose deployments lpsa --port=80 --type=LoadBalancer
+kubectl expose deployments lpsa --port=80 --type=Cluster
+
+---Actualizar
+
+kubectl set image deployments/lpsa lpsa=mzegarra/lpsa:2.0
+
+--Commit
+kubectl rollout status deployments/lpsa
+
+--Rollback
+kubectl rollout undo deployments/lpsa
+
+
+
+https://medium.com/@cfatechblog/bare-metal-k8s-clustering-at-chick-fil-a-scale-7b0607bd3541
+
+
+===
+
+kubectl create deployment tci-creditcard --image dreytpo/tci-creditcard:3.0.0
+kubectl create deployment tci-accounts --image fabiosalasm/tci-accounts:2.0.0
+kubectl create deployment tci-customers --image jmoralesadrianzen/tci-customers:2.0.0
+kubectl create deployment tci-web --image mzegarra/tci-web
+
+
+
+kubectl expose deployments tci-creditcard --port=9070 --type=ClusterIP
+kubectl expose deployments tci-accounts  --port=9071 --type= ClusterIP
+kubectl expose deployments tci-customers --port=9072 --type=ClusterIP
+kubectl expose deployments tci-web --port=8082 --type=LoadBalancer
+
+
+====
+
+  CreditsCards:
+  http://localhost:8085/credit-card?dni=1231312
+  http://localhost:9070/tci-creditcard/{dni}
+  TCI-CreditsCards:2.0.0
+  docker run -p 9070:9070 dreytpo/tci-creditcard:3.0.0
+
+  Accounts:
+  http://localhost:8087/list/1234568
+  http://localhost:9071/tci-accounts/1234568
+  TCI-Accounts:2.0.0
+  docker run -p 9071:9071 fabiosalasm/tci-accounts:2.0.0
+
+  Customers:
+  http://localhost:8086/customer/clientes
+  http://localhost:9072/tci-customers/
+  TCI-Customers:2.0.0
+  docker run -p 9072:9072 jmoralesadrianzen/tci-customers:2.0.0
+
+
+
+
+
+
+
+
+
+
+curl http://tci-customers:9072/tci-customers/
+curl http://35.239.6.243:8082/tci-customers/
