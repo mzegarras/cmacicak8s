@@ -94,23 +94,19 @@ kubectl delete service my-nginx
 
 
 - Ejemplo kubernetes
-kubectl run lpsa --image mzegarra/lpsa:1.0 --port=80
-kubectl expose deployments lpsa --port=80 --type=LoadBalancer
-kubectl scale deployments/lpsa --replicas=5
-
-kubectl create deployment lpsa --image mzegarra/lpsa:1.0
-
-kubectl expose deployments lpsa --port=80 --type=Cluster
+kubectl run lpsa-nombreapellido --image mzegarra/lpsa:1.0 --port=80
+kubectl expose deployments lpsa-nombreapellido --port=80 --type=LoadBalancer
+kubectl scale deployments/lpsa-nombreapellido --replicas=3
 
 ---Actualizar
 
-kubectl set image deployments/lpsa lpsa=mzegarra/lpsa:2.0
+kubectl set image deployments/lpsa-nombreapellido lpsa=mzegarra/lpsa:2.0
 
 --Commit
-kubectl rollout status deployments/lpsa
+kubectl rollout status deployments/lpsa-nombreapellido
 
 --Rollback
-kubectl rollout undo deployments/lpsa
+kubectl rollout undo deployments/lpsa-nombreapellido
 
 
 4.- Generar imagen:
