@@ -39,6 +39,8 @@ mongo-express:
 kubectl run mongo-express-mz --image=mongo-express --port=8081 --env ME_CONFIG_MONGODB_ADMINUSERNAME=root --env ME_CONFIG_MONGODB_ADMINPASSWORD=example --env ME_CONFIG_MONGODB_SERVER=mongo-srv-mz
 kubectl expose deployments mongo-express-mz --name mongo-express-mz --port=8081 --type=LoadBalancer
 
+kubectl logs pods/mongo-express-mz-67bdddc466-mkwlt
+
 3.- Rest api
 
 rest-api:
@@ -47,16 +49,21 @@ rest-api:
    context: .
   restart: always
 
--Publicar imagen
+--Publicar imagen
+
 docker-compose build rest-api
 docker tag nodedemoenv:latest mzegarra/nodedemoenv:latest
 docker push mzegarra/nodedemoenv:latest
 
-kubectl run rest-api-mz --image=mzegarra/nodedemoenv --port=3000 --env MONGO_USER=root --env MONGO_PWD=example --env MONGO_SERVER=mongo-mz
+kubectl run rest-api-mz --image=mzegarra/nodedemoenv \
+  --port=3000 \
+  --env MONGO_USER=root \
+  --env MONGO_PWD=example \
+  --env MONGO_SERVER=mongo-srv-mz
 
 kubectl expose deployments rest-api-mz --name rest-api-mz --port=3000 --type=LoadBalancer
 
-curl -X POST http://35.232.57.181:3000/user -H 'Content-Type: application/json' -v  --data '{"nombre": "Mossy","email": "mossy1@gmail.com","password": "abc123","role": "ADMIN_ROLE"}'
+curl -X POST http://35.239.40.14:3000/user -H 'Content-Type: application/json' -v  --data '{"nombre": "Mossy","email": "mossy1@gmail.com","password": "abc123","role": "ADMIN_ROLE"}'
 
 3.- Proxy-reverse
 docker-compose build proxy-reverse
