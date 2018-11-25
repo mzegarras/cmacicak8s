@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: cmacica-demo-mz
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
