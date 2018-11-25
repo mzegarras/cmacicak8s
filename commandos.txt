@@ -166,22 +166,6 @@ https://medium.com/@cfatechblog/bare-metal-k8s-clustering-at-chick-fil-a-scale-7
 
 ===
 
-kubectl run tci-creditcard --image=dreytpo/tci-creditcard:3.0.0 --port=9070
-kubectl expose deployments tci-creditcard --port=9070 --type=LoadBalancer
-kubectl expose deployments tci-creditcard --port=9070 --type=ClusterIP
-http://107.178.218.33:9070/tci-creditcard/1231312
-curl http://tci-creditcard:9070/tci-creditcard/1231312
-curl http://10.48.5.10:9070/tci-creditcard/1231312
-
-kubectl create deployment tci-creditcard --image dreytpo/tci-creditcard:3.0.0
-kubectl create deployment tci-accounts --image fabiosalasm/tci-accounts:2.0.0
-kubectl create deployment tci-customers --image jmoralesadrianzen/tci-customers:2.0.0
-kubectl create deployment tci-web --image mzegarra/tci-web
-
-kubectl expose deployments tci-creditcard --port=9070 --type=ClusterIP
-kubectl expose deployments tci-accounts  --port=9071 --type= ClusterIP
-kubectl expose deployments tci-customers --port=9072 --type=ClusterIP
-kubectl expose deployments tci-web --port=8082 --type=LoadBalancer
 
 
 ====
@@ -203,15 +187,3 @@ kubectl expose deployments tci-web --port=8082 --type=LoadBalancer
   http://localhost:9072/tci-customers/
   TCI-Customers:2.0.0
   docker run -p 9072:9072 jmoralesadrianzen/tci-customers:2.0.0
-
-
-
-
-
-
-
-
-
-
-curl http://tci-customers:9072/tci-customers/
-curl http://35.239.6.243:8082/tci-customers/
