@@ -6,3 +6,6 @@ kubectl get pods -l app=cmacica-demo-mz
 
 kubectl get pods -l app: cmacica-demo-mz
 kubectl delete pods -l app=cmacica-demo-mz
+
+kubectl get pods -l env=dev
+kubectl delete pods -l env=dev
