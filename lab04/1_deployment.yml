@@ -7,11 +7,12 @@ spec:
   selector:
     matchLabels:
       app: cmacica-demo-mz
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
         app: cmacica-demo-mz
+        env: dev
     spec:
       containers:
         - name: cmacica-demo-mz
