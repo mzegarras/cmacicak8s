@@ -63,7 +63,7 @@ kubectl run rest-api-mz --image=mzegarra/nodedemoenv \
 
 kubectl expose deployments rest-api-mz --name rest-api-mz --port=3000 --type=LoadBalancer
 
-curl -X POST http://35.239.40.14:3000/user -H 'Content-Type: application/json' -v  --data '{"nombre": "Mossy","email": "mossy1@gmail.com","password": "abc123","role": "ADMIN_ROLE"}'
+curl -X POST http://35.239.40.14:3000/user -H 'Content-Type: application/json' -v  --data '{"nombre": "Mossy","email": "mossy3@gmail.com","password": "abc123","role": "ADMIN_ROLE"}'
 
 3.- Proxy-reverse
 docker-compose build proxy-reverse
