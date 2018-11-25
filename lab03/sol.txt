@@ -16,11 +16,11 @@ kubectl get pods
 kubectl exec -it id-mongo-container -- /bin/sh
 printenv
 
-kubectl expose deployments mongo-mz --name mongo-mz --port=27017 --type=ClusterIP
+kubectl expose deployments mongo-mz --name mongo-srv-mz --port=27017 --type=ClusterIP
 
 o
 
-kubectl expose deployments mongo --name mongo-mz --port=27017 --type=LoadBalancer
+kubectl expose deployments mongo --name mongo-srv-mz --port=27017 --type=LoadBalancer
 
 2.- Mongo express
 
@@ -36,7 +36,7 @@ mongo-express:
   depends_on:
     - mongo
 
-kubectl run mongo-express-mz --image=mongo-express --port=8081 --env ME_CONFIG_MONGODB_ADMINUSERNAME=root --env ME_CONFIG_MONGODB_ADMINPASSWORD=example --env ME_CONFIG_MONGODB_SERVER=mongo-mz
+kubectl run mongo-express-mz --image=mongo-express --port=8081 --env ME_CONFIG_MONGODB_ADMINUSERNAME=root --env ME_CONFIG_MONGODB_ADMINPASSWORD=example --env ME_CONFIG_MONGODB_SERVER=mongo-srv-mz
 kubectl expose deployments mongo-express-mz --name mongo-express-mz --port=8081 --type=LoadBalancer
 
 3.- Rest api
