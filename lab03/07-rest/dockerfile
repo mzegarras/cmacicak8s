@@ -1,0 +1,17 @@
+FROM node:8.12.0-alpine
+
+# Create app directory
+WORKDIR /usr/src/app
+
+ENV MONGO_USER "mongouser"
+ENV MONGO_PWD "mongopwd"
+ENV MONGO_SERVER "mongousrv"
+
+COPY package*.json ./
+ADD ./server/ ./server
+RUN npm install
+
+
+EXPOSE 3000
+
+CMD [ "npm", "start" ]

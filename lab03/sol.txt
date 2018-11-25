@@ -1,0 +1,81 @@
+1.- Crear mongodb
+
+mongo:
+  image: mongo
+  restart: always
+  #ports:
+    #- 27017:27017
+  environment:
+    MONGO_INITDB_ROOT_USERNAME: root
+    MONGO_INITDB_ROOT_PASSWORD: example
+
+kubectl run mongo-mz --image=mongo --port=27017 --env MONGO_INITDB_ROOT_USERNAME=root --env MONGO_INITDB_ROOT_PASSWORD=example
+kubectl get pods
+
+
+kubectl exec -it id-mongo-container -- /bin/sh
+printenv
+
+kubectl expose deployments mongo-mz --name mongo-mz --port=27017 --type=ClusterIP
+
+o
+
+kubectl expose deployments mongo --name mongo-mz --port=27017 --type=LoadBalancer
+
+2.- Mongo express
+
+mongo-express:
+  image: mongo-express
+  restart: always
+  ports:
+    - 8081:8081
+  environment:
+    ME_CONFIG_MONGODB_ADMINUSERNAME: root
+    ME_CONFIG_MONGODB_ADMINPASSWORD: example
+    ME_CONFIG_MONGODB_SERVER: mongo (default)
+  depends_on:
+    - mongo
+
+kubectl run mongo-express-mz --image=mongo-express --port=8081 --env ME_CONFIG_MONGODB_ADMINUSERNAME=root --env ME_CONFIG_MONGODB_ADMINPASSWORD=example --env ME_CONFIG_MONGODB_SERVER=mongo-mz
+kubectl expose deployments mongo-express-mz --name mongo-express-mz --port=8081 --type=LoadBalancer
+
+3.- Rest api
+
+rest-api:
+  image: nodedemo
+  build:
+   context: .
+  restart: always
+
+-Publicar imagen
+docker-compose build rest-api
+docker tag nodedemoenv:latest mzegarra/nodedemoenv:latest
+docker push mzegarra/nodedemoenv:latest
+
+kubectl run rest-api-mz --image=mzegarra/nodedemoenv --port=3000 --env MONGO_USER=root --env MONGO_PWD=example --env MONGO_SERVER=mongo-mz
+
+kubectl expose deployments rest-api-mz --name rest-api-mz --port=3000 --type=LoadBalancer
+
+curl -X POST http://35.232.57.181:3000/user -H 'Content-Type: application/json' -v  --data '{"nombre": "Mossy","email": "mossy1@gmail.com","password": "abc123","role": "ADMIN_ROLE"}'
+
+3.- Proxy-reverse
+docker-compose build proxy-reverse
+
+-Publicar imagen
+docker tag rest-api-reverse:latest mzegarra/rest-api-reverse:latest
+docker push mzegarra/rest-api-reverse:latest
+
+
+kubectl run rest-api-reverse-mz --image=mzegarra/rest-api-reverse:latest --port=8083
+kubectl expose deployments rest-api-reverse-mz --name rest-api-reverse-mz --port=8083 --type=LoadBalancer
+
+
+curl -X POST http://35.239.196.177:8083/api -H 'Content-Type: application/json' -v  --data '{"nombre": "Mossy","email": "mossy15@gmail.com","password": "abc123","role": "ADMIN_ROLE"}'
+
+4.- Cambiar service rest-api-mz
+
+kubectl delete service rest-api-mz
+kubectl expose deployments rest-api-mz --name rest-api-mz --port=3000 --type=ClusterIP
+
+curl -X POST http://35.232.57.181:3000/user -H 'Content-Type: application/json' -v  --data '{"nombre": "Mossy","email": "mossy1@gmail.com","password": "abc123","role": "ADMIN_ROLE"}'
+curl -X POST http://35.239.196.177:8083/api -H 'Content-Type: application/json' -v  --data '{"nombre": "Mossy","email": "mossy16@gmail.com","password": "abc123","role": "ADMIN_ROLE"}'
