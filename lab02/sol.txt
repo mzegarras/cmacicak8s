@@ -1,0 +1,39 @@
+
+
+1.- Desplegar applicación
+kubectl create deployment tci-creditcard --image dreytpo/tci-creditcard:3.0.0
+kubectl create deployment tci-accounts --image fabiosalasm/tci-accounts:2.0.0
+kubectl create deployment tci-customers --image jmoralesadrianzen/tci-customers:2.0.0
+
+2.- Crear service
+kubectl expose deployments tci-creditcard --name tci-creditcard-mz --port=9070 --type=ClusterIP
+kubectl expose deployments tci-accounts  --name tci-accounts-mz --port=9071 --type=ClusterIP
+kubectl expose deployments tci-customers --name tci-customers-mz --port=9072 --type=ClusterIP
+
+
+3.- Generar imagen
+
+docker build -t tc-proxy-mz .
+docker tag tc-proxy-mz mzegarra/tc-proxy-mz
+docker push mzegarra/tc-proxy-mz
+
+4.- Desplegar proxy
+kubectl create deployment tc-proxy --image mzegarra/tc-proxy-mz
+
+5.- Crear service
+kubectl expose deployments tc-proxy --name tci-proxy-mz --port=8085 --type=LoadBalancer
+
+6.- Install curl for windows
+
+choco install curl
+https://curl.haxx.se/windows/
+
+6.- Test service
+
+curl -X GET http://35.188.156.25:8085/customers/ -H 'Content-Type: application/json' -v
+curl http://35.188.156.25:8085/cards/1231312 -v
+curl http://35.188.156.25:8085/accounts/1234568 -v
+
+6.- List pods
+kubectl get pods
+kubectl logs pods/id-pod
