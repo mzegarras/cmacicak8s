@@ -1,0 +1,33 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cmacica-mongo-mz
+spec:
+  selector:
+    matchLabels:
+      app: cmacica-mongo-mz
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cmacica-mongo-mz
+    spec:
+      containers:
+        - name: cmacica-mongo-mz
+          image: mongo
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: cmacica-env
+                  key: MONGO_INITDB_ROOT_USERNAME
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cmacica-mysecret
+                  key: MONGO_PASSWORD
+
+# --env MONGO_INITDB_ROOT_USERNAME=root --env MONGO_INITDB_ROOT_PASSWORD=example

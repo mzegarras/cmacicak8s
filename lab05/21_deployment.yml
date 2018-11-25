@@ -1,0 +1,23 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cmacica-mongo-mz
+spec:
+  selector:
+    matchLabels:
+      app: cmacica-mongo-mz
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cmacica-mongo-mz
+    spec:
+      containers:
+        - name: cmacica-mongo-mz
+          image: mongo
+          ports:
+            - containerPort: 27017
+          envFrom:
+            - configMapRef:
+                name: cmacica-env

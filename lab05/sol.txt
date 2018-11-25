@@ -1,0 +1,43 @@
+kubectl apply -f 12_configmap.yml
+kubectl apply -f 21_deployment.yml
+kubectl apply -f 22_service.yml
+
+kubectl get services
+kubectl get pods
+
+kubectl exec -it cmacica-mongo-mz-86c6f85b94-842jq -- /bin/sh
+
+
+Crear secret
+
+echo -n 'password' | base64
+cGFzc3dvcmQ=
+echo -n '1f2d1e2e67df' | base64
+MWYyZDFlMmU2N2Rm
+
+
+kubectl create -f 30_secret.yml
+kubectl delete -f 31_deployment.yml
+kubectl create -f 32_deployment.yml
+kubectl get pods
+kubectl exec -it cmacica-mongo-mz-6d555fbbfd-lhjtp -- /bin/sh
+
+
+
+
+6.- Mongo express
+
+mongo-express:
+  image: mongo-express
+  restart: always
+  ports:
+    - 8081:8081
+  environment:
+    ME_CONFIG_MONGODB_ADMINUSERNAME: root
+    ME_CONFIG_MONGODB_ADMINPASSWORD: example
+    ME_CONFIG_MONGODB_SERVER: mongo (default)
+  depends_on:
+    - mongo
+
+kubectl run mongo-express-mz --image=mongo-express --port=8081 --env ME_CONFIG_MONGODB_ADMINUSERNAME=root --env ME_CONFIG_MONGODB_ADMINPASSWORD=example --env ME_CONFIG_MONGODB_SERVER=mongo-mz
+kubectl expose deployments mongo-express-mz --name mongo-express-mz --port=8081 --type=LoadBalancer

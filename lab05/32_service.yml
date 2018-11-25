@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cmacica-mongo-mz
+  labels:
+    app: cmacica-mongo-mz
+spec:
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  selector:
+    app: cmacica-mongo-mz
+  type: ClusterIP

@@ -1,0 +1,33 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cmacica-mongo-express-mz
+spec:
+  selector:
+    matchLabels:
+      app: cmacica-mongo-express-mz
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cmacica-mongo-express-mz
+    spec:
+      containers:
+        - name: cmacica-mongo-express-mz
+          image: mongo-express
+          ports:
+            - containerPort: 8081
+          env:
+            - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: cmacica-env
+                  key: MONGO_INITDB_ROOT_USERNAME
+            - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cmacica-mysecret
+                  key: MONGO_PASSWORD
+            - name: ME_CONFIG_MONGODB_SERVER
+              value: cmacica-mongo-mz
