@@ -1,3 +1,5 @@
+kubectl describe configmaps/cmacica-env-mz
+
 kubectl apply -f 12_configmap.yml
 kubectl apply -f 21_deployment.yml
 kubectl apply -f 22_service.yml
@@ -12,6 +14,7 @@ Crear secret
 
 echo -n 'password' | base64
 cGFzc3dvcmQ=
+
 echo -n '1f2d1e2e67df' | base64
 MWYyZDFlMmU2N2Rm
 
@@ -41,3 +44,6 @@ mongo-express:
 
 kubectl run mongo-express-mz --image=mongo-express --port=8081 --env ME_CONFIG_MONGODB_ADMINUSERNAME=root --env ME_CONFIG_MONGODB_ADMINPASSWORD=example --env ME_CONFIG_MONGODB_SERVER=mongo-mz
 kubectl expose deployments mongo-express-mz --name mongo-express-mz --port=8081 --type=LoadBalancer
+
+
+kubectl describe secrets/cmacica-mysecret-arra

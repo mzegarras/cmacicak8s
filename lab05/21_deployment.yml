@@ -20,4 +20,4 @@ spec:
             - containerPort: 27017
           envFrom:
             - configMapRef:
-                name: cmacica-env
+                name: cmacica-env-mz
