@@ -14,4 +14,4 @@ kubectl delete -f 1_deployment.yml
 kubectl delete -f 2_service.yml
 
 
- kubectl delete -f 3_all.yml
+kubectl delete -f 3_all.yml

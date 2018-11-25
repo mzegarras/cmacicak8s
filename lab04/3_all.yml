@@ -31,5 +31,5 @@ spec:
       targetPort: 8888
   selector:
     app: cmacica-demo-mz
-  type: ClusterIP
-  #type: LoadBalancer
+  #type: ClusterIP
+  type: LoadBalancer
