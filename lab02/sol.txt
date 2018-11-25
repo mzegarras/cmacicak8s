@@ -42,3 +42,7 @@ kubectl logs pods/id-pod
 7.- Clean Cluster
 kubectl delete deployments --all
 kubectl delete services --all
+
+Explorar container
+kubectl exec -it tc-proxy-ajcg-76df7fb6dd-6tkd2 -- /bin/sh
+cat /etc/nginx/nginx.conf
