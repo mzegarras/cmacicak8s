@@ -1,0 +1,20 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cmacica-demo-mz
+spec:
+  selector:
+    matchLabels:
+      app: cmacica-demo-mz
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: cmacica-demo-mz
+    spec:
+      containers:
+        - name: cmacica-demo-mz
+          image: mzegarra/hello-node:v1
+          ports:
+            - containerPort: 8888

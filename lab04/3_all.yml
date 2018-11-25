@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cmacica-demo-mz
+spec:
+  selector:
+    matchLabels:
+      app: cmacica-demo-mz
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: cmacica-demo-mz
+    spec:
+      containers:
+        - name: cmacica-demo-mz
+          image: mzegarra/hello-node:v1
+          ports:
+            - containerPort: 8888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cmacica-demo-mz
+  labels:
+    app: cmacica-demo-mz
+spec:
+  ports:
+    - protocol: TCP
+      port: 8889
+      targetPort: 8888
+  selector:
+    app: cmacica-demo-mz
+  #type: ClusterIP
+  type: LoadBalancer
